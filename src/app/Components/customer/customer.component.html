@@ -1,0 +1,202 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Müşteriler</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right" >
+            <li class="breadcrumb-item"><a routerLink="/" class="btn">Ana Sayfa</a></li>
+            <li class="breadcrumb-item active btn">Müşteriler</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="m-2">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Müşteriler</h3>
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModel">Müşteri Ekle</button>
+        </div>
+        <div class="col-md-6">
+          <input
+                class="form-control"
+                type="search"
+                [(ngModel)]="filterText"
+                [ngModelOptions]="{standalone: true}"
+                placeholder="Aranacak kelime"
+                aria-label="Aranacak kelime"
+                >
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-hovered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Müşteri Adı</th>
+            <th>Müşteri Emaili</th>
+            <th>Müşteri İndirimi</th>
+            <th>Müşteri İşlemleri</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of customers
+                    | customerPipe: filterText
+                    let index = index">
+            <td>{{index+1}}</td>
+            <td>{{customer.name}}</td>
+            <td>{{customer.email}}</td>
+            <td>{{customer.discount || 0}}</td>
+            <td>
+              <input type="button" value="indirim ekle" *ngIf="!customer.discount" data-bs-toggle="modal" (click)="getCustomer    (customer.id)" data-bs-target="#addCustomerDiscountModel" class="btn bg-warning me-2">
+
+              <input type="button" value="indirim gücelle" *ngIf="customer.discount"  data-bs-toggle="modal" (click)    ="getCustomer(customer.id)" data-bs-target="#updateCustomerDiscountpModel" class="btn bg-warning me-2">
+
+              <input type="button" value="güncelle" data-bs-toggle="modal" (click)="getCustomer(customer.id)"     data-bs-target="#updateModel" class="btn bg-primary me-2">
+              <input type="button" value="sil" (click)="delete(customer.id)"   class="btn bg-danger me-2">
+            </td>
+
+          </tr>
+        </tbody>
+
+
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+<div class="modal fade" id="addModel" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Müşteri Ekle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm" autocomplete="off">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Müşteri Adı</label>
+          <input type="text" class="form-control" ngModel name="name" #name required minlength="3" placeholder="Müşteri adı">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Mail Adresi</label>
+          <input type="email" class="form-control" ngModel name="email" #email required email placeholder="Mail adresi">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Şifre</label>
+          <input type="password" class="form-control" ngModel name="password" #password required>
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="add(addForm)" [disabled]="!addForm.valid" >Müşteri Ekle</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addCustomerDiscountModel" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Müşteri Bağlantı Güncelle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updatediscountForm="ngForm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">İndirim Oranı</label>
+            <input type="text" class="form-control" ngModel name="discount" #discount required>
+          </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="addDiscount(updatediscountForm)" [disabled]="!updatediscountForm.valid" >Müşteri Bağlantı Güncelle</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="updateRelationshipModelCloseBtn">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateCustomerDiscountpModel" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Müşteri Bağlantı Güncelle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateCustomerDiscountForm="ngForm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">İndirim Oranı</label>
+            <input type="text" class="form-control" ngModel name="updatediscount" #discount required>
+          </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="updateDiscount(updateCustomerDiscountForm)" [disabled]="!updateCustomerDiscountForm.valid" >Müşteri Bağlantı Güncelle</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="updateCustomerDiscountModelCloseBtn">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="updateModel" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Müşteri Güncelle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Müşteri Adı</label>
+            <input type="text" class="form-control" [(ngModel)]="customer.name"  name="name" #name required minlength="3" placeholder="Müşteri adı">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Mail Adresi</label>
+            <input type="email" class="form-control" [(ngModel)]="customer.email" name="email" #email required email placeholder="Mail adresi">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Şifre</label>
+            <input type="password" class="form-control" [(ngModel)]="customer.password" name="password" #password required>
+          </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="update()" [disabled]="!updateForm.valid">Müşteri Güncelle</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="updateModelCloseBtn">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
