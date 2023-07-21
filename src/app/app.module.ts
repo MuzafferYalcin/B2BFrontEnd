@@ -18,6 +18,7 @@ import { LoginComponent } from './Components/login/login.component';
 import { AuthGuard } from './Guards/auth-guard';
 import { CustomerPipe } from './Components/customer/customer.pipe';
 import { OrderItemsComponent } from './Components/order/order-items/order-items.component';
+import { ProfileComponent } from './Components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { OrderItemsComponent } from './Components/order/order-items/order-items.
     ProductImageComponent,
     LoginComponent,
     CustomerPipe,
-    OrderItemsComponent
+    OrderItemsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

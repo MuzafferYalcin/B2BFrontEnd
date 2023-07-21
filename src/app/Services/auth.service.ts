@@ -24,4 +24,8 @@ export class AuthService {
     return false;
   }
 
+  update(user:any){
+    return this.http.post("https://localhost:7220/api/Auth/updateUser",user);
+  }
+
 }

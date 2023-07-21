@@ -28,7 +28,7 @@
   <hr>
   <div class="dropdown">
     <a style="cursor: pointer;" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" >
-      <span style="font-size: 1.5em;">{{username}}</span>
+      <span style="font-size: 1.5em;" routerLink="/profile">{{username}} </span>
       <a *ngIf="!isAuth" class="btn text-white" (click)="logout()">Çıkış</a>
     </a>
   </div>

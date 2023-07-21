@@ -8,6 +8,7 @@ import { ProductImageComponent } from './Components/product/product-image/produc
 import { LoginComponent } from './Components/login/login.component';
 import { AuthGuard } from './Guards/auth-guard';
 import { OrderItemsComponent } from './Components/order/order-items/order-items.component';
+import { ProfileComponent } from './Components/profile/profile.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path:"order/order-item/:id",
         component:OrderItemsComponent
+      },
+      {
+        path:"profile",
+        component:ProfileComponent
       }
 
     ]

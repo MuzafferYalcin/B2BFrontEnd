@@ -19,12 +19,12 @@ export class DecodeService {
 
   }
 
-  getId(){
+  getId() : number{
     var token = localStorage.getItem("token");
     if(token)
       var decodeToken = this.jwthelper.decodeToken(token);
     var name = Object.keys(decodeToken).filter(p=>p.endsWith("/nameidentifier"))[0]
-    return typeof(+decodeToken[name]);
+    return +decodeToken[name];
   }
 
   getRoles(){
