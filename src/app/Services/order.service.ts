@@ -23,6 +23,8 @@ export class OrderService {
   }
 
 
-
+  update(order : any){
+    return this.http.post(this.baseUrl+"update",order);
+  }
 
 }

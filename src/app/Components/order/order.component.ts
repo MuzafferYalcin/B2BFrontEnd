@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/Services/order.service';
+import { Order } from 'src/app/_Models/order-model';
 
 @Component({
   selector: 'app-order',
@@ -18,5 +19,15 @@ export class OrderComponent implements OnInit{
     this.orderService.getList().subscribe((next:any)=>{
       this.orders = next.data;
     })
+  }
+
+  update(order : Order, state : string){
+    order.state = state;
+    this.orderService.update(order).subscribe((next:any)=>{
+      alert(next.message);
+    },err=>{
+      alert(err.error);
+    })
+
   }
 }

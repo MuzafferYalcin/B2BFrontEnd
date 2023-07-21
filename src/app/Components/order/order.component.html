@@ -61,11 +61,22 @@
 
                 <td [innerText]="order.totalPrice | currency: 'TRY':'symbol-narrow':'1.2-2'"></td>
                 <td [innerText]="order.state"></td>
-                <td>
-                  <a class="btn">reddet  </a>
-                  <a class="btn">reddet  </a>
-                  <a class="btn">reddet</a>
-                </td>
+                <td *ngIf="order.state == 'Reddedilen'"></td>
+              <td *ngIf="order.state == 'Onay Bekliyor'">
+                <button class="btn btn-danger" (click)="update(order, 'Reddedilen')">Reddet</button>
+                <button class="btn btn-success mx-2" (click)="update(order, 'İşlemde')">İşleme Al</button>
+              </td>
+              <td *ngIf="order.state == 'İşlemde'">
+                <button class="btn btn-danger" (click)="update(order, 'Onay Bekliyor')">Onaya Geri Çek</button>
+                <button class="btn btn-primary mx-2" (click)="update(order, 'Sevke Hazır')">Sevke Hazır</button>
+              </td>
+              <td *ngIf="order.state == 'Sevke Hazır'">
+                <button class="btn btn-danger" (click)="update(order, 'İşlemde')">İşleme Geri Çek</button>
+                <button class="btn btn-info mx-2" (click)="update(order, 'Sevkiyatı Yapıldı')">Sevkiyatı Tamamla</button>
+              </td>
+              <td *ngIf="order.state == 'Sevkiyatı Yapıldı'">
+                <button class="btn btn-danger" (click)="update(order, 'Sevke Hazır')">Sevke Hazıra Geri Çek</button>
+              </td>
 
 
             </tbody>

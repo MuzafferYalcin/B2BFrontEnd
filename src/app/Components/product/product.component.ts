@@ -26,11 +26,17 @@ export class ProductComponent implements OnInit {
     let product : Product =new  Product();
     product.name = form.value.name;
     product.price = form.value.price;
-    this.productService.add(product).subscribe((next:any)=>{
-      this.getProducts();
-      var btn =document.getElementById("addproductFormClose");
-      if(btn) btn.click();
-    });
+    if( product.price! <= 0 ){
+      alert("ÜRÜN FİYATI 0'DAN YÜKSEK OLAMLIDIR!")
+    }
+    else{
+      this.productService.add(product).subscribe((next:any)=>{
+        this.getProducts();
+        var btn =document.getElementById("addproductFormClose");
+        if(btn) btn.click();
+      });
+    }
+
   }
 
   getProduct(product  : any){
@@ -40,13 +46,19 @@ export class ProductComponent implements OnInit {
   }
 
   updateProduct(){
-    this.productService.update(this.product).subscribe((next:any)=>{
-      this.getProducts();
-      let btn = document.getElementById("updateformclose");
-      if(btn) btn.click();
+    if(this.product.price! <=0){
+      alert("ÜRÜN FİYATI 0'DAN YÜKSEK OLAMLIDIR!")
+    }
+    else{
+      this.productService.update(this.product).subscribe((next:any)=>{
+        this.getProducts();
+        let btn = document.getElementById("updateformclose");
+        if(btn) btn.click();
 
-      alert(next.message);
-    })
+        alert(next.message);
+      })
+    }
+
   }
 
   deleteProduct(product : Product){

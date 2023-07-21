@@ -64,11 +64,18 @@ export class CustomerComponent {
     let customerdiscount : CustomerDiscount = new CustomerDiscount();
     customerdiscount.customerId = this.customer.id;
     customerdiscount.discount = form.value.discount;
-    this.customerService.addDiscount(customerdiscount).subscribe((next:any)=>{
-      this.getCustomers();
-      var btn = document.getElementById("updateRelationshipModelCloseBtn");
-      if(btn) btn.click();
-    })
+    if(customerdiscount.discount! <=0 || customerdiscount.discount! > 100)
+    {
+      alert("İNDİRİM ORANI 0-100 ARASINDA OLMALIDIR ! ");
+      form.reset()
+    }
+    else{
+      this.customerService.addDiscount(customerdiscount).subscribe((next:any)=>{
+        this.getCustomers();
+        var btn = document.getElementById("updateRelationshipModelCloseBtn");
+        if(btn) btn.click();
+      })
+    }
   }
 
 
@@ -77,12 +84,19 @@ export class CustomerComponent {
       customerDiscount.id = this.customerDiscount.id;
       customerDiscount.customerId = this.customer.id;
       customerDiscount.discount = form.value.updatediscount;
-      this.customerService.updateDiscount(customerDiscount).subscribe(next=>{
+      if(customerDiscount.discount! <=0 || customerDiscount.discount! > 100)
+      {
+        alert("İNDİRİM ORANI 0-100 ARASINDA OLMALIDIR !");
+        form.reset()
+      }
+      else{
+        this.customerService.updateDiscount(customerDiscount).subscribe(next=>{
         this.getCustomers();
         form.reset();
         var btn = document.getElementById("updateCustomerDiscountModelCloseBtn");
         if(btn) btn.click();
       })
+      }
   }
 
   delete(id : number){
